@@ -11,7 +11,7 @@
     <header class="header"><h1>Hassan Raza's Labs for INST377</h1></header>
     <div class="container">
       <div class="left_section box">
-        <h3>Album Names</h3>
+        <h2>Album Names</h2>
         <ol class="box">
           <li>The Beatles - Let It Be</li>
           <li>Green Day - American Idiot</li>
@@ -21,12 +21,16 @@
         </ol>
       </div>
       <div class="right_section box">
-        <h3>Image Carousel</h3>
-        <div class="grid">
-          <img id="slide_1" src='images/X7front.png' alt="BMW X7 Front" />
-          <img id="slide_2" src='images/X7headlights.png' alt="BMW X7 Headlights" />
-          <img id="slide_3" src='images/X7rear.png' alt="BMW X7 Rear" />
-          <img id="slide_4" src='images/X7interior.png' alt="BMW X7 Interior" />
+        <h2>Image Carousel</h2>
+        <div class="carousel">
+          <button class="prev">prev</button>
+          <div class="slides">
+            <div class="carousel_item visible"><img id="slide_1" src='images/X7front.png' alt="BMW X7 Front" /></div>
+            <div class="carousel_item hidden"><img id="slide_2" src='images/X7headlights.png' alt="BMW X7 Headlights" /></div>
+            <div class="carousel_item hidden"><img id="slide_3" src='images/X7rear.png' alt="BMW X7 Rear" /></div>
+            <div class="carousel_item hidden"><img id="slide_4" src='images/X7interior.png' alt="BMW X7 Interior" /></div>
+          </div>
+          <button class="next">next</button>
         </div>
         <div class="box">
           Mochi is a rice cake dish originating in japan. 
