@@ -317,4 +317,13 @@ form label {
       width: fill-available;
       align-items: flex-start;
     }
+
+    .right_section{
+      flex:1 1 auto;
+      justify-content: start;
+    }
+
+    .left_section{
+      flex:1 1 auto;
+    }
 }
