@@ -7,7 +7,7 @@ function getRandomIntInclusive(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1) + min); // The maximum is inclusive and the minimum is inclusive
-  }
+}
   
   function injectHTML(list) {
       console.log('fired injectHTML');
@@ -34,16 +34,26 @@ function getRandomIntInclusive(min, max) {
         to the query in lower case
         Ask the TAs if you need help with this
       */
-    }
+  }
     
     function cutRestaurantList(list) {
       console.log('fired cut list');
       const range = [...Array(15).keys()];
-      return newArray = range.map((item) => {
+      return (newArray = range.map((item) => {
         const index = getRandomIntInclusive(0, list.length - 1);
         return list[index]
-      });
+      }));
     }
+
+    function initMap(){
+      const carto = L.map('map').setView([38.98, -76.93], 13);
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      }).addTo(carto);
+      
+    }
+      
   
     async function mainEvent() { // the async keyword means we can make API requests
       const mainForm = document.querySelector('.main_form'); // This class name needs to be set on your form before you can listen for an event on it
@@ -55,7 +65,10 @@ function getRandomIntInclusive(min, max) {
     
       const loadAnimation = document.querySelector('#data_load_animation');
       loadAnimation.style.display = 'none';
+      generateListButton.classList.add("hidden");
       
+      initMap();
+
       
       const storedData = localStorage.getItem('storedData');
       const parsedData = JSON.parse(storedData);
