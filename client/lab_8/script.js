@@ -101,7 +101,7 @@ function getRandomIntInclusive(min, max) {
         console.log('Loading Data');
         loadAnimation.style.display = 'inline-block'
     
-        // Basic GET request - this replaces the form Action
+        // Basic GET request - this replaces the form Action.
         const results = await fetch('https://data.princegeorgescountymd.gov/resource/umjn-t2iz.json');
     
         // This changes the response from the GET into data we can use - an "object"
