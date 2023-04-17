@@ -51,29 +51,46 @@ function getRandomIntInclusive(min, max) {
         maxZoom: 19,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       }).addTo(carto);
-      
+      return carto;
     }
       
-  
+    function markerPlace(array, map) {
+      console.log('array for markers', array);
+
+      map.eachLayer((layer) => {
+        if (layer instanceof L.Marker) {
+          layer.remove();
+        }
+      });
+
+      array.forEach((item) => {
+        console.log('markerPlace', item);
+        const {coordinates} = item.geocoded_column_1;
+        L.marker([coordinates[1], coordinates[0]]).addTo(map);
+      })
+    }
+
     async function mainEvent() { // the async keyword means we can make API requests
       const mainForm = document.querySelector('.main_form'); // This class name needs to be set on your form before you can listen for an event on it
       const loadDataButton = document.querySelector('#data_load');
+      const clearDataButton = document.querySelector('#data_clear');
       const generateListButton = document.querySelector('#generate');
       const textField = document.querySelector('#resto');
+
 
       // Add a querySelector that targets your filter button here
     
       const loadAnimation = document.querySelector('#data_load_animation');
-      loadAnimation.style.display = 'none';
+      loadAnimation.style.display = "none";
       generateListButton.classList.add("hidden");
       
-      initMap();
+      const carto = initMap();
 
       
-      const storedData = localStorage.getItem('storedData');
-      const parsedData = JSON.parse(storedData);
-      if (parsedData.length > 0 ) {
-        generateListButton.classList.remove('hidden');
+      const storedData = localStorage.getItem("storedData");
+      let parsedData = JSON.parse(storedData);
+      if (parsedData?.length > 0 ) {
+        generateListButton.classList.remove("hidden");
       }
 
       let currentList = []; // this is "scoped" to the main event function
@@ -90,6 +107,12 @@ function getRandomIntInclusive(min, max) {
         // This changes the response from the GET into data we can use - an "object"
         const storedList = await results.json();
         localStorage.setItem('storedData', JSON.stringify(storedList));
+        parsedData = storedList;
+
+        if (parsedData?.length > 0 ) {
+          generateListButton.classList.remove("hidden");
+        }
+
         loadAnimation.style.display = 'none';
         // console.table(storedList); 
       });
@@ -99,9 +122,10 @@ function getRandomIntInclusive(min, max) {
       generateListButton.addEventListener('click', (event) => {
         console.log('generate new list');
 
-        currentList = cutRestaurantList(storedList);
+        currentList = cutRestaurantList(parsedData);
         console.log(currentList);
         injectHTML(currentList);
+        markerPlace(currentList, carto);
       });
 
       textField.addEventListener('input', (event) => {
@@ -109,6 +133,13 @@ function getRandomIntInclusive(min, max) {
         const newList = filterList(currentList, event.target.value);
         console.log(newList);
         injectHTML(newList);
+        markerPlace(newList, carto);
+      });
+
+      clearDataButton.addEventListener("click", (event) => {
+        console.log("clear browser data");
+        localStorage.clear();
+        console.log("localStorage Check", localStorage.getItem("storedData"));
       })
     }
     
